@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "pater-tap"
+version = "0.1.0"
+description = ""
+authors = ["dinmukhammed <arystambekdimash005@gmail.com>"]
+readme = "README.md"
+packages = [{include = "pater"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^5.0"
+djangorestframework = "^3.14.0"
+bs4 = "^0.0.1"
+requests = "^2.31.0"
+pillow = "^10.1.0"
+python-dotenv = "^1.0.0"
+aiogram = "^3.2.0"
+channels = "^4.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
