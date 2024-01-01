@@ -32,5 +32,5 @@ class Queries(models.Model):
 
 
 class Photo(models.Model):
-    image = models.ImageField(upload_to='flat_photos')
+    image = models.ImageField(upload_to='post_photos')
     flat = models.ForeignKey(Post, on_delete=models.CASCADE)

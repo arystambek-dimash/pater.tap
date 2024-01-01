@@ -1,52 +1,41 @@
 from rest_framework import serializers
-from api.models import *
+from .models import Profile, Post, Queries, Photo
+from django.contrib.auth.models import User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = ['user', 'profile_photo', 'first_name', 'last_name', 'phone_number', 'contact_url']
+
+
+class PostSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Post
+        fields = ['id', 'title', 'address', 'apartment_complex', 'room_quantity', 'description',
+                  'price', 'additional_price', 'how_many_tenant_look', 'look_roommate', 'is_rented', 'expenses', 'user']
+
+
+class QueriesSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    post = PostSerializer(read_only=True)
+
+    class Meta:
+        model = Queries
+        fields = ['id', 'post', 'user']
 
 
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
-        fields = '__all__'
-
-
-class ContactSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Contact
-        fields = '__all__'
-
-
-class AdditionalDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AdditionalDetail
-        fields = '__all__'
-
-
-class FlatSerializer(serializers.ModelSerializer):
-    photos = PhotoSerializer(many=True, required=False, read_only=True)
-    additional_detail = AdditionalDetailSerializer(required=False, read_only=True)
-    contact = ContactSerializer(required=False, read_only=True)
-
-    class Meta:
-        model = Flat
-        fields = '__all__'
-
-    def create(self, validated_data):
-        photos_data = validated_data.pop('photos', [])
-        additional_detail_data = validated_data.pop('additional_detail', {})
-        contact_data = validated_data.pop('contact', {})
-        additional_instance = AdditionalDetail.objects.create(**additional_detail_data)
-        contact_instance = Contact.objects.create(**contact_data)
-
-        flat = Flat.objects.create(contact=contact_instance, additional_detail=additional_instance, **validated_data)
-
-        for photo_data in photos_data:
-            Photo.objects.create(flat=flat, **photo_data)
-
-        return flat
-
-
-class QuestionnaireSerializer(serializers.ModelSerializer):
-    contact = ContactSerializer()
-
-    class Meta:
-        model = Questionnaire
-        fields = '__all__'
+        fields = ['id', 'image', 'post']
