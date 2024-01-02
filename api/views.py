@@ -1,7 +1,7 @@
 from rest_framework import generics
 from api.serializers import FlatSerializer
 
-from api.models import Flat
+from api.models import Post
 
 
 class GetFlats(generics.ListCreateAPIView):
