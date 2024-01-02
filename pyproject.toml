@@ -16,6 +16,9 @@ pillow = "^10.1.0"
 python-dotenv = "^1.0.0"
 aiogram = "^3.2.0"
 channels = "^4.0.0"
+django-fsm = "^2.8.1"
+geopy = "^2.4.1"
+geocoder = "^1.38.1"
 
 
 [build-system]
